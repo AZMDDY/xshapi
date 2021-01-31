@@ -2,6 +2,7 @@ import xsh.Session
 import xsh.Screen
 import xsh.Dialog
 
+
 def get_current_row_info(num: int):
     """
     获取终端当前行num个字符
@@ -24,5 +25,3 @@ def Main():
     line = get_current_row_info(30)
     if "Password" in line:
         xsh.Screen.Send("paas_word\n")
-
-    

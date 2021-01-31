@@ -33,4 +33,3 @@ def Main():
         xsh.Screen.Send("yes\r")
     if "password" in line:
         xsh.Screen.Send("paas_word\r")
-    
