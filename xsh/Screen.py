@@ -40,18 +40,18 @@ def Get(nBegRow: int, nBegCol: int, nEndRow: int, nEndCol: int):
 
 def WaitForString(lpszString: str):
     """
-    等待直到终端中显示指定的字符串
-    :param lpszString: 终端中显示的字符串
+    等待直到在终端中输入指定的字符串
+    :param lpszString: 需要匹配的字符串
     """
     print("xsh.Screen.WaitForString({})".format(lpszString))
 
 
-def WaitForStrings(strArray: str, nTimeout: int):
+def WaitForStrings(strArray: list, nTimeout: int):
     """
-     等待指定的时间，直到终端中显示指定的字符串或超时
-    :param strArray:终端中显示的字符串
+     等待指定的时间，直到在终端中输入指定的字符串或超时
+    :param strArray: 匹配的字符串列表
     :param nTimeout: 超时时间(毫秒)
-    :return: 找到的字符串数量
+    :return: 1: 匹配到了，0: 未匹配到或超时
     """
     print("xsh.Screen.WaitForStrings({}, {})".format(strArray, nTimeout))
     return 0
