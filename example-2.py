@@ -29,8 +29,6 @@ def Main():
 
     # 终端出现提示输入密码时，输入密码
     line = get_current_row_info(100)
-    if re.search("paasword", line, flags=re.I):
-        xsh.Screen.Send("yes\r")
-    if "password" in line:
-        xsh.Screen.Send("paas_word\r")
+    if re.search("password", line, flags=re.I):
+        xsh.Screen.Send("pass_word\r")
     
