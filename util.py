@@ -66,14 +66,6 @@ def send(msg: str, wait_time=200):
     sleep(wait_time)
 
 
-def su_root(passwd: str):
-    """
-    切换到root用户
-    """
-    send("su root")
-    input_passwd(passwd)
-
-
 def input_passwd(passwd: str):
     """
     输入密码
@@ -84,6 +76,14 @@ def input_passwd(passwd: str):
 
     if wait("password", 1):
         send(passwd)
+
+
+def su_root(passwd: str):
+    """
+    切换到root用户
+    """
+    send("su root")
+    input_passwd(passwd)
 
 
 def ssh(user: str, passwd: str, host: str, port=22):
