@@ -2,13 +2,13 @@
 可以通过以下接口来控制Xshell的会话。包括打开、关闭会话，记录会话日志等。
 """
 
-Connected: bool  # 当前会话是否连接
-LocalAddress: str  # 获取本地地址
-Path: str  # 获取当前会话文件路径
-RemoteAddress: str  # 获取远端地址
-RemotePort: str  # 获取远端端口号
-Logging: bool  # 当前会话是否正在记录日志文件
-LogFilePath: str  # 存放日志文件的路径
+Connected = False  # 当前会话是否连接
+LocalAddress = "LocalAddress"  # 获取本地地址
+Path = "Path"  # 获取当前会话文件路径
+RemoteAddress = "RemoteAddress"  # 获取远端地址
+RemotePort = "RemotePort"  # 获取远端端口号
+Logging = False  # 当前会话是否正在记录日志文件
+LogFilePath = "LogFilePath"  # 存放日志文件的路径
 
 
 def Open(lpszSession: str):

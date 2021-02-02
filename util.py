@@ -2,7 +2,6 @@ import xsh.Session
 import xsh.Screen
 import xsh.Dialog
 import re
-import time
 
 
 def sleep(ms: int):
@@ -58,13 +57,13 @@ def wait_no(msg: str, timeout=0):
             return False
 
 
-def send(msg: str, time=200):
+def send(msg: str, wait_time=200):
     """
     向终端发送字符串，然后等待一段时间
     time: 命令执行后，等待的时间，单位毫秒
     """
     xsh.Screen.Send(msg + "\r")
-    sleep(time)
+    sleep(wait_time)
 
 
 def input_passwd(passwd: str):
@@ -113,8 +112,8 @@ def scp_in_local_shell(src: str, dst: str, user: str, passwd: str, host: str, po
         send("scp -P {} {}:{}@{}:{} {}".format(port, user, passwd, host, src, dst), 1000)
     else:
         send("scp -P {} {} {}:{}@{}:{}".format(port, src, user, passwd, host, dst), 1000)
-    src = src.replace("\\", "/")
-    dst = dst.replace("\\", "/")
+    src.replace("\\", "/")
+    dst.replace("\\", "/")
     wait(src.split("/")[-1])
     wait_no(src.split("/")[-1])
 
@@ -126,12 +125,14 @@ def scp(src: str, dst: str, user: str, passwd: str, host: str, port=22, mode=0):
     mode=1: 拷贝本地文件到远端主机
     """
     if mode == 0:
-        send("scp -P {} {}@{}:{} {}".format(port, user, passwd, src, dst), 1000)
+        send("scp -P {} {}@{}:{} {}".format(port, user, host, src, dst), 1000)
     else:
-        send("scp -P {} {} {}@{}:{}".format(port, src, user, passwd, dst), 1000)
+        send("scp -P {} {} {}@{}:{}".format(port, src, user, host, dst), 1000)
     input_passwd(passwd)
-    src = src.replace("\\", "/")
-    dst = dst.replace("\\", "/")
+    src.replace("\\", "/")
+    dst.replace("\\", "/")
+    wait(src.split("/")[-1])
+    wait_no(src.split("/")[-1])
 
 
 def set_screen_sync(sync=True):
