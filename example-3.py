@@ -60,10 +60,18 @@ def wait_no(msg: str, timeout=0):
 def send(msg: str, wait_time=200):
     """
     向终端发送字符串，然后等待一段时间
-    time: 命令执行后，等待的时间，单位毫秒
+    wait_time: 命令执行后，等待的时间，单位毫秒
     """
     xsh.Screen.Send(msg + "\r")
     sleep(wait_time)
+
+
+def su_root(passwd: str):
+    """
+    切换到root用户
+    """
+    send("su root")
+    input_passwd(passwd)
 
 
 def input_passwd(passwd: str):
@@ -95,7 +103,8 @@ def ssh_in_local_shell(user: str, passwd: str, host: str, port=22):
 
 def open_session(user: str, passwd: str, host: str, port=22):
     """
-    打开一个会话，但不会切换到这个会话，后续命令不会在这个新的会话中执行
+    打开一个会话，但不会切换到这个会话，后续命令不会在这个新的会话中执行；
+    如果当前会话是本地shell，那么将切换到打开的会话中，后续命令也会在这个当前会话中执行；
     """
     xsh.Session.Open("ssh://{}:{}@{}:{}".format(user, passwd, host, port))
     xsh.Screen.Synchronous = True
@@ -108,14 +117,14 @@ def scp_in_local_shell(src: str, dst: str, user: str, passwd: str, host: str, po
     mode=0: 从远端主机拷贝文件到本地
     mode=1: 拷贝本地文件到远端主机
     """
+    src = src.replace("\\", "/")
+    dst = dst.replace("\\", "/")
     if mode == 0:
         send("scp -P {} {}:{}@{}:{} {}".format(port, user, passwd, host, src, dst), 1000)
     else:
         send("scp -P {} {} {}:{}@{}:{}".format(port, src, user, passwd, host, dst), 1000)
-    src.replace("\\", "/")
-    dst.replace("\\", "/")
-    wait(src.split("/")[-1])
-    wait_no(src.split("/")[-1])
+    if wait(src.split("/")[-1], 1):
+        wait_no(src.split("/")[-1])
 
 
 def scp(src: str, dst: str, user: str, passwd: str, host: str, port=22, mode=0):
@@ -124,15 +133,15 @@ def scp(src: str, dst: str, user: str, passwd: str, host: str, port=22, mode=0):
     mode=0: 从远端主机拷贝文件到本地
     mode=1: 拷贝本地文件到远端主机
     """
+    src = src.replace("\\", "/")
+    dst = dst.replace("\\", "/")
     if mode == 0:
         send("scp -P {} {}@{}:{} {}".format(port, user, host, src, dst), 1000)
     else:
         send("scp -P {} {} {}@{}:{}".format(port, src, user, host, dst), 1000)
     input_passwd(passwd)
-    src.replace("\\", "/")
-    dst.replace("\\", "/")
-    wait(src.split("/")[-1])
-    wait_no(src.split("/")[-1])
+    if wait(src.split("/")[-1], 1):
+        wait_no(src.split("/")[-1])
 
 
 def set_screen_sync(sync=True):
