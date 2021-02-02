@@ -8,6 +8,23 @@
 + 移植方便：由于本项目中所有关于xsh的API和官方同名，所以在利用本项目开发完脚本后，仅仅需要注释掉导入的语句即可使用。
 + 快速而准确：借助本项目开发脚本，大大减少了错误使用API的概率，因为提供了比较详细的注释。
 
+## 自定义接口
+
+根据实际使用，自定义了一些接口，提高开发效率。详细请见`util.py`文件。
+
++ sleep
++ get_row_info
++ wait
++ wait_no
++ send
++ input_passwd
++ ssh
++ ssh_in_local_shell
++ open_session
++ scp_in_local_shell
++ scp
++ set_screen_sync
+
 ## 示例
 
 ### example-1: 自动切换到root用户
