@@ -18,6 +18,7 @@
 + wait_no
 + send
 + input_passwd
++ su_root
 + ssh
 + ssh_in_local_shell
 + open_session
