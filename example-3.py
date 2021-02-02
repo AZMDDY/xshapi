@@ -13,8 +13,8 @@ def get_row_info(row: int, chr_num: int):
     获取第row行的前chr_num个字符
     row=0表示终端中最新的一行
     """
-    cur_row = xsh.Screen.CurrentRow
-    return xsh.Screen.Get(cur_row - row, 1, cur_row, chr_num)
+    n_row = xsh.Screen.CurrentRow - row
+    return xsh.Screen.Get(n_row, 1, n_row, chr_num)
 
 
 def wait(msg: str, timeout=0):
