@@ -130,8 +130,8 @@ def scp_in_local_shell(src: str, dst: str, user: str, passwd: str, host: str, po
 def scp(src: str, dst: str, user: str, passwd: str, host: str, port=22, mode=0):
     """
     使用scp复制文件(不能在本地shell中执行)
-    mode=0: 从远端主机拷贝文件到本地
-    mode=1: 拷贝本地文件到远端主机
+    mode=0: 从远端主机拷贝文件到当前设备
+    mode=1: 拷贝当前设备的文件到远端主机
     """
     src = src.replace("\\", "/")
     dst = dst.replace("\\", "/")
