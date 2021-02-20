@@ -22,19 +22,16 @@ def wait(msg: str, timeout=0):
     等待终端当前行出现期望的内容(不区分大小写)，直到超时或者找到
     timeout: 超时时间，单位秒，当为0时，表示一直等待
     """
-    ret = re.search(msg, get_row_info(0, 200), re.I)
-    if ret:
-        return True
-
+    ret = False
     count = 0
     while not ret:
-        count += 1
-        sleep(100)
-        ret = re.search(msg, get_row_info(0, 200))
+        ret = re.search(msg, get_row_info(0, 200), re.I)
         if ret:
             return True
         if timeout > 0 and count >= timeout * 10:
             return False
+        count += 1
+        sleep(100)
 
 
 def wait_no(msg: str, timeout=0):
@@ -42,19 +39,16 @@ def wait_no(msg: str, timeout=0):
     等待终端当前行不出现期望的内容(不区分大小写)，直到超时或者不出现
     timeout: 超时时间，单位秒，当为0时，表示一直等待
     """
-    ret = re.search(msg, get_row_info(0, 200), re.I)
-    if not ret:
-        return True
-
+    ret = False
     count = 0
     while ret:
-        count += 1
-        sleep(100)
-        ret = re.search(msg, get_row_info(0, 200))
+        ret = re.search(msg, get_row_info(0, 200), re.I)
         if not ret:
             return True
         if timeout > 0 and count >= timeout * 10:
             return False
+        count += 1
+        sleep(100)
 
 
 def send(msg: str, wait_time=200):
@@ -99,6 +93,8 @@ def ssh_in_local_shell(user: str, passwd: str, host: str, port=22):
     在本地shell中ssh自动登录
     """
     send("ssh {}:{}@{}:{}".format(user, passwd, host, port), 1000)
+    if wait("yes/no", 1):
+        send("yes")
 
 
 def open_session(user: str, passwd: str, host: str, port=22):
@@ -123,6 +119,8 @@ def scp_in_local_shell(src: str, dst: str, user: str, passwd: str, host: str, po
         send("scp -P {} {}:{}@{}:{} {}".format(port, user, passwd, host, src, dst), 1000)
     else:
         send("scp -P {} {} {}:{}@{}:{}".format(port, src, user, passwd, host, dst), 1000)
+    if wait("yes/no", 1):
+        send("yes")
     if wait(src.split("/")[-1], 1):
         wait_no(src.split("/")[-1])
 
